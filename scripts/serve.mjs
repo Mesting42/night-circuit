@@ -1,0 +1,14 @@
+import http from 'node:http';
+import fs from 'node:fs';
+import path from 'node:path';
+import os from 'node:os';
+import {fileURLToPath} from 'node:url';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),dist=path.join(root,'dist');
+if(!fs.existsSync(path.join(dist,'index.html'))){console.error('请先运行 npm run build，或双击 启动游戏.bat。');process.exit(1);}
+const identity={game:'night-circuit',root,version:'1.0.0'};
+const probe=port=>new Promise(resolve=>{const req=http.get({hostname:'127.0.0.1',port,path:'/__night-circuit-health',timeout:200},res=>{let text='';res.on('data',c=>text+=c);res.on('end',()=>{try{resolve(JSON.parse(text).root===root);}catch{resolve(false);}});});req.on('error',()=>resolve(false));req.on('timeout',()=>{req.destroy();resolve(false);});});
+function report(port,reused=false){const addresses=Object.values(os.networkInterfaces()).flat().filter(i=>i&&i.family==='IPv4'&&!i.internal).map(i=>`http://${i.address}:${port}`);fs.writeFileSync(path.join(root,'.server.json'),JSON.stringify({...identity,port,pid:process.pid,addresses,reused},null,2));console.log(`夜行赛道 ${reused?'已复用现有服务':'已启动'}\n电脑：http://localhost:${port}\n手机同网：${addresses.join(' 或 ')}\n不会关闭其他项目服务。`);}
+for(let port=5178;port<=5208;port++){if(await probe(port)){report(port,true);process.exit(0);}}
+const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json','.woff2':'font/woff2','.woff':'font/woff','.png':'image/png','.svg':'image/svg+xml','.webp':'image/webp','.mp3':'audio/mpeg','.wav':'audio/wav','.glb':'model/gltf-binary'};
+const server=http.createServer((req,res)=>{if(req.url?.split('?')[0]==='/__night-circuit-health'){res.writeHead(200,{'Content-Type':'application/json','Cache-Control':'no-store'});res.end(JSON.stringify(identity));return;}let filename;try{const route=decodeURIComponent(new URL(req.url,'http://localhost').pathname);filename=path.resolve(dist,'.'+(route==='/'?'/index.html':route));if(!filename.startsWith(dist+path.sep)){res.writeHead(403);res.end('禁止访问');return;}}catch{res.writeHead(400);res.end('无效地址');return;}fs.stat(filename,(e,s)=>{if(e||!s.isFile()){res.writeHead(404);res.end('资源不存在，请重新启动游戏。');return;}res.writeHead(200,{'Content-Type':mime[path.extname(filename)]||'application/octet-stream','Content-Length':s.size,'Cache-Control':filename.endsWith('index.html')?'no-cache':'public, max-age=3600'});fs.createReadStream(filename).pipe(res);});});
+let port=5178;for(;port<=5208;port++){const ok=await new Promise(resolve=>{const fail=e=>{server.removeListener('listening',success);if(e.code!=='EADDRINUSE')console.error(e.message);resolve(false);};const success=()=>{server.removeListener('error',fail);resolve(true);};server.once('error',fail);server.once('listening',success);server.listen(port,'0.0.0.0');});if(ok)break;}if(port>5208){console.error('5178–5208 端口均无法使用。请释放其中一个端口后重试。');process.exit(1);}report(port);

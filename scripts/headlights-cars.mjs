@@ -1,0 +1,5 @@
+import {chromium} from '@playwright/test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+const b=await chromium.launch({headless:true,args:['--enable-webgl','--ignore-gpu-blocklist']});const p=await b.newPage({viewport:{width:1440,height:900}}),errors=[];p.on('pageerror',e=>errors.push(e.message));p.on('console',m=>{if(m.type()==='error')errors.push(m.text());});const checks=[];
+try{await p.goto('http://localhost:5178');await p.getByRole('button',{name:'车库与改装',exact:true}).click();for(const [i,id] of [[0,'swift'],[1,'pulse'],[2,'atlas']]){await p.locator(`[data-action="car"][data-index="${i}"]`).click();await p.waitForTimeout(300);await p.screenshot({path:`artifacts/screenshots/headlights-car-${id}.png`});checks.push({car:id,pass:true});}assert.equal(errors.length,0);}catch(e){checks.push({pass:false,error:e.message});process.exitCode=1;}finally{fs.writeFileSync('artifacts/headlights-cars.json',JSON.stringify({checks,errors},null,2));console.log(JSON.stringify({checks,errors}));await b.close();}

@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.wrangler/
+.server.json
+*.log
+test-results/
+playwright-report/
+artifacts/*
+!artifacts/TEST-REPORT.md

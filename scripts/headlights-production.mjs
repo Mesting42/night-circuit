@@ -1,0 +1,10 @@
+import {chromium} from '@playwright/test';
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+const b=await chromium.launch({headless:true,args:['--enable-webgl','--ignore-gpu-blocklist']});const p=await b.newPage({viewport:{width:1280,height:800}}),errors=[],external=[],requests=[];p.setDefaultTimeout(45000);
+p.on('pageerror',e=>errors.push(e.message));p.on('console',m=>{if(m.type()==='error')errors.push(m.text());});p.on('request',r=>{requests.push(r.url());if(!r.url().startsWith('http://localhost:5178')&&!r.url().startsWith('data:'))external.push(r.url());});
+const checks=[];try{
+ await p.goto('http://localhost:5178');const asset=fs.readFileSync('dist/index.html','utf8').match(/assets\/index-[^"]+\.js/)[0];assert.ok(requests.some(r=>r.endsWith(asset)));checks.push({name:'production loads the newly built bundle',pass:true,asset});
+ await p.getByRole('button',{name:'自由练习',exact:true}).click();await p.locator('[data-action="track"][data-index="8"]').click();await p.getByRole('button',{name:'驶入赛道',exact:true}).click();await p.waitForFunction(()=>{const text=document.querySelector('#clock')?.textContent;return text&&text!=='00:00.00';});await p.waitForTimeout(1100);await p.keyboard.press('Escape');await p.locator('.overlay').evaluate(el=>el.style.display='none');await p.screenshot({path:'artifacts/screenshots/headlights-production-alpine.png'});
+ assert.equal(await p.evaluate(()=>typeof window.__nightCircuit),'undefined');checks.push({name:'production snow, road illumination and HUD render; development telemetry absent',pass:true});assert.equal(errors.length,0);assert.equal(external.length,0);checks.push({name:'production has no shader errors or external resources',pass:true,errors,external});
+}catch(e){checks.push({name:'headlights production smoke',pass:false,error:e.message,errors});console.error(e.message);process.exitCode=1;}finally{fs.writeFileSync('artifacts/headlights-production.json',JSON.stringify(checks,null,2));console.log(JSON.stringify(checks));await b.close();}

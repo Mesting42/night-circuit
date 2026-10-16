@@ -1,0 +1,50 @@
+import {chromium} from '@playwright/test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+
+const browser=await chromium.launch({headless:true,args:['--enable-webgl','--ignore-gpu-blocklist']});
+const context=await browser.newContext({viewport:{width:844,height:390},hasTouch:true,isMobile:true});
+const page=await context.newPage();
+const results=[];
+const check=(name,pass,details={})=>{assert.ok(pass,`${name}: ${JSON.stringify(details)}`);results.push({name,pass:true,...details});console.log('PASS '+name);};
+try{
+  await page.goto('http://localhost:5188');
+  await page.getByRole('button',{name:'设置',exact:true}).click();
+  check('fullscreen setting defaults to enabled',await page.locator('[data-setting="fullscreenButton"]').isChecked());
+  await page.locator('[data-setting="steering"]').selectOption('buttons');
+  await page.locator('[data-setting="fullscreenButton"]').uncheck();
+  await page.getByRole('button',{name:'保存并返回',exact:true}).click();
+  check('fullscreen buttons can be hidden',await page.locator('[data-action="fullscreen"]').evaluateAll(els=>els.length>=2&&els.every(el=>el.hidden)));
+  await page.getByRole('button',{name:'设置',exact:true}).click();
+  await page.locator('[data-setting="fullscreenButton"]').check();
+  await page.getByRole('button',{name:'保存并返回',exact:true}).click();
+  check('fullscreen button can be shown again',await page.getByRole('button',{name:'全屏游玩',exact:true}).count()===1);
+  await page.reload();
+  await page.getByRole('button',{name:'自由练习',exact:true}).waitFor();
+  const saved=await page.evaluate(()=>window.__nightCircuit.profile().settings);
+  check('steering and fullscreen settings persist after reload',saved.steering==='buttons'&&saved.fullscreenButton===true);
+  await page.getByRole('button',{name:'自由练习',exact:true}).click();
+  await page.getByRole('button',{name:'驶入赛道',exact:true}).click();
+  await page.waitForTimeout(4200);
+  check('button mode shows two directions instead of the wheel',await page.locator('[data-control="steer"]').isHidden()&&await page.locator('[data-control="left"]').isVisible()&&await page.locator('[data-control="right"]').isVisible());
+  await page.screenshot({path:'artifacts/screenshots/touch-controls-buttons.png'});
+  const state=()=>page.evaluate(()=>window.__nightCircuit.snapshot());
+  const touch=await context.newCDPSession(page);
+  const point=async control=>{const b=await page.locator(`[data-control="${control}"]`).boundingBox();return{x:b.x+b.width/2,y:b.y+b.height/2};};
+  const left=await point('left'),right=await point('right');
+  await touch.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{...left,id:1,radiusX:4,radiusY:4,force:1}]});
+  await page.waitForTimeout(220);
+  check('left button produces left steering',(await state()).player.input.steer>0);
+  await touch.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[{...left,id:1,radiusX:4,radiusY:4,force:1}]});
+  await touch.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{...right,id:2,radiusX:4,radiusY:4,force:1}]});
+  await page.waitForTimeout(220);
+  const rightInput=(await state()).player.input;check('right button produces right steering',rightInput.steer<0,rightInput);
+  await touch.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[{...right,id:2,radiusX:4,radiusY:4,force:1}]});
+  await page.getByRole('button',{name:'暂停',exact:true}).click();
+  await page.getByRole('button',{name:'设置',exact:true}).click();
+  await page.locator('[data-setting="steering"]').selectOption('wheel');
+  await page.getByRole('button',{name:'保存并返回',exact:true}).click();
+  check('switching to the wheel updates the paused race controls',await page.locator('[data-control="steer"]').isVisible()&&await page.locator('[data-control="left"]').isHidden());
+  fs.writeFileSync('artifacts/browser-touch-options.json',JSON.stringify(results,null,2));
+}catch(error){console.error(error.message);process.exitCode=1;}
+finally{await browser.close();}

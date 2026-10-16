@@ -1,0 +1,205 @@
+{
+  "schemaVersion": 2,
+  "project": "夜行赛道",
+  "description": "从雨城驶向旷野的九站竞速与可控漂移",
+  "colorMeta": {
+    "ink": {
+      "displayName": "车库墨蓝",
+      "role": "页面与驾驶背景"
+    },
+    "surface": {
+      "displayName": "深层面板",
+      "role": "赛程、改装与结果工作区"
+    },
+    "panel": {
+      "displayName": "雨夜面板",
+      "role": "HUD、对话框与触控背板"
+    },
+    "rain-blue": {
+      "displayName": "冷雨蓝",
+      "role": "场景雾和城市夜色"
+    },
+    "paper": {
+      "displayName": "仪表乳白",
+      "role": "标题和主测量信息"
+    },
+    "muted": {
+      "displayName": "路雾灰蓝",
+      "role": "次级说明与非当前状态"
+    },
+    "signal-orange": {
+      "displayName": "雨幕信号橙",
+      "role": "推进动作、当前状态和重要反馈"
+    },
+    "headlamp": {
+      "displayName": "头灯冰白",
+      "role": "冷色道路高亮与测量信息"
+    },
+    "amber": {
+      "displayName": "路灯琥珀",
+      "role": "建筑窗光和奖励数字"
+    },
+    "forest-sky": {
+      "displayName": "林雾青蓝",
+      "role": "森林天空"
+    },
+    "forest-horizon": {
+      "displayName": "灰青林雾",
+      "role": "森林地平线、雾与环境光"
+    },
+    "forest-ground": {
+      "displayName": "暗绿土坡",
+      "role": "森林地表与环境底色"
+    },
+    "forest-shoulder": {
+      "displayName": "灰绿碎石",
+      "role": "森林连续路肩"
+    },
+    "forest-road": {
+      "displayName": "湿石灰柏油",
+      "role": "森林湿路材质底色"
+    },
+    "canyon-sky": {
+      "displayName": "紫褐暮空",
+      "role": "峡谷天空"
+    },
+    "canyon-horizon": {
+      "displayName": "暖砂橙暮光",
+      "role": "峡谷地平线、雾与环境光"
+    },
+    "canyon-ground": {
+      "displayName": "橙褐砂岩",
+      "role": "峡谷地表与环境底色"
+    },
+    "canyon-shoulder": {
+      "displayName": "暖砂路肩",
+      "role": "峡谷连续路肩"
+    },
+    "canyon-road": {
+      "displayName": "干燥灰砂柏油",
+      "role": "峡谷干路材质底色"
+    },
+    "alpine-sky": {
+      "displayName": "冷蓝暮空",
+      "role": "雪山天空"
+    },
+    "alpine-horizon": {
+      "displayName": "冰蓝雾光",
+      "role": "雪山地平线、雾与环境光"
+    },
+    "alpine-ground": {
+      "displayName": "灰白雪地",
+      "role": "雪山地表与环境底色"
+    },
+    "alpine-shoulder": {
+      "displayName": "浅冰白路肩",
+      "role": "雪山连续路肩"
+    },
+    "alpine-road": {
+      "displayName": "冷灰蓝柏油",
+      "role": "雪山公路材质底色"
+    }
+  },
+  "typographyMeta": {
+    "display": {
+      "character": "结实、略带倾斜的路牌感"
+    },
+    "body": {
+      "character": "朴素、清楚、为驾驶上下文让位"
+    },
+    "measurement": {
+      "character": "窄、斜、适合高速扫读"
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "推进比赛、购买和继续动作",
+      "html": "<button class=\"ds-btn-primary\">驶入赛道 <svg viewBox=\"0 0 24 24\"><path d=\"M5 12h14m-6-6 6 6-6 6\"/></svg></button>",
+      "css": ".ds-btn-primary{background:#ed7548;color:#101b25;border:0;border-radius:3px;padding:14px 24px;height:52px;display:inline-flex;align-items:center;gap:30px;font:700 15px 'Noto Sans SC',sans-serif}.ds-btn-primary:hover{background:#ff9167}.ds-btn-primary:focus-visible{outline:3px solid #edb894;outline-offset:5px}.ds-btn-primary svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "车库、重试和次级入口",
+      "html": "<button class=\"ds-btn-secondary\">车库与改装</button>",
+      "css": ".ds-btn-secondary{background:#d1dbe419;color:#ecece5;border:1px solid #91a3ae4d;border-radius:3px;padding:14px 24px;height:52px;font:700 15px 'Noto Sans SC',sans-serif}.ds-btn-secondary:hover{filter:brightness(1.12)}.ds-btn-secondary:focus-visible{outline:3px solid #edb894;outline-offset:5px}"
+    },
+    {
+      "name": "Icon Button",
+      "kind": "button",
+      "refersTo": "icon-button",
+      "description": "暂停、复位、返回和设置",
+      "html": "<button class=\"ds-icon-button\" aria-label=\"暂停\"><svg viewBox=\"0 0 24 24\"><path d=\"M9 5v14M15 5v14\"/></svg></button>",
+      "css": ".ds-icon-button{width:44px;height:44px;border-radius:50%;padding:0;background:#172631b3;color:#ecece5;border:1px solid #8ba2b24a;display:inline-flex;align-items:center;justify-content:center}.ds-icon-button:hover{filter:brightness(1.12)}.ds-icon-button:focus-visible{outline:3px solid #edb894;outline-offset:5px}.ds-icon-button svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}"
+    },
+    {
+      "name": "Track Row",
+      "kind": "nav",
+      "refersTo": "track-list",
+      "description": "编号、路线名和区域形成可扫读的赛程列表；手机滚动导航保持当前项可见，详情显示匹配的天气与路面条件",
+      "html": "<button class=\"ds-track-row\"><span>01</span><div><strong>雨港仓道</strong><small>南湾港口</small></div></button>",
+      "css": ".ds-track-row{display:flex;align-items:center;gap:18px;text-align:left;padding:15px 18px;min-height:72px;border:0;border-radius:4px;background:transparent;color:#ecece5}.ds-track-row:hover,.ds-track-row:focus-visible{background:#38505e;outline:0}.ds-track-row>span{font:italic 30px 'Barlow Condensed',sans-serif;color:#ed7548}.ds-track-row strong{font:700 15px 'Noto Sans SC',sans-serif}.ds-track-row small{display:block;color:#a9b9c3;font:400 11px 'Noto Sans SC',sans-serif;margin-top:5px}"
+    },
+    {
+      "name": "HUD Panel",
+      "kind": "custom",
+      "refersTo": "hud",
+      "description": "把名次、圈数、时间、速度、氮气和小地图放在道路边缘",
+      "html": "<div class=\"ds-hud\"><strong>01</strong><span>名次</span></div>",
+      "css": ".ds-hud{background:#17232dbc;color:#ecece5;border-radius:4px;padding:8px 14px;display:flex;align-items:baseline;gap:8px}.ds-hud strong{font:italic 58px 'Barlow Condensed',sans-serif}.ds-hud span{color:#a9b9c3;font:400 10px 'Noto Sans SC',sans-serif}"
+    },
+    {
+      "name": "Upgrade Row",
+      "kind": "custom",
+      "refersTo": "upgrade",
+      "description": "真实改装影响、三级状态和当前价格",
+      "html": "<div class=\"ds-upgrade\"><div><strong>雨地轮胎</strong><span class=\"ds-levels\"><i></i><i></i><i></i></span><p>抓地与制动力提升</p></div><button>¥ 650</button></div>",
+      "css": ".ds-upgrade{border-bottom:1px solid #78909d30;padding:19px 0;display:flex;align-items:center;justify-content:space-between;gap:15px;color:#ecece5}.ds-upgrade strong{font:700 14px 'Noto Sans SC',sans-serif}.ds-upgrade p{color:#b7c7d0;font:400 11px/1.9 'Noto Sans SC',sans-serif;margin:10px 0 0}.ds-levels{display:inline-flex;gap:4px;margin-left:14px}.ds-levels i{width:4px;height:10px;background:#ed7548;transform:skew(-14deg)}.ds-upgrade button{min-height:44px;padding:10px 12px;background:#d8e0e61c;color:#ecece5;border:0;border-radius:3px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "雨幕中的车灯仪表盘",
+    "overview": "《夜行赛道》的界面来自雨夜街区里驾驶员能快速读懂的东西：车灯落在湿路面的高光、仪表盘上的大号速度数字、远处建筑窗格里稀疏的暖光。整体使用深蓝黑作为环境，把暖橙动作色留给发车、购买、复位反馈和车辆漆面，让驾驶时的视觉优先级始终清楚。\n\n菜单是静态车库镜头与赛事线路的安静入口；比赛 HUD 退到道路边缘，给小地图、名次、圈数、时间、氮气和速度留出固定位置。车辆和场景均为程序化几何，材质强调湿地反射、车灯投射和金属漆面，风格化地表现雨夜街头，不宣称照片级真实。\n\n九站线路由原有六条城市与沿海路线延伸到山地森林、荒漠峡谷和雪山冰湖，三条新增路线同时用于新九站锦标赛、自由练习和计时。自然场景继承既有车辆、菜单、字体、HUD 与控制语言，用暗绿湿林、暖橙干燥砂岩和冷蓝雪地建立三种明确环境；地形、针叶树、岩层、冰面与纹理均由本地代码生成。山地起伏用于构成道路周围的景观，驾驶道路仍为平面闭合公路，路面系数对玩家与 AI 一致生效。\n\n近光灯使用左右两组真实投射光源，配光纹理在本地生成，带有柔和横向边缘、上方明暗截止和略高的右侧路肩照明。灯光跟随车身朝向与姿态，照亮道路、护栏、建筑和车辆；中高画质由玩家的两组车灯生成遮挡阴影，低画质保留配光并关闭阴影。湿路面使用低金属度沥青底层与湿润反光层，避免近处刺眼、远处几乎不受光的金属化表现。雨雪仅在已有降水粒子里呈现淡淡受光，不绘制车前三角形光片或实体光锥。\n\n手机和平板使用横屏驾驶；竖屏由“请横屏游玩”提示层阻止输入，旋转到横屏后自动恢复。",
+    "keyCharacteristics": [
+      "深蓝环境与乳白信息形成高对比阅读底色。",
+      "信号橙只用于推进动作、车辆焦点和重要反馈。",
+      "Barlow Condensed 承担速度、计时和名次等测量数字。",
+      "车辆、道路、建筑、自然地形、纹理和声音都在本地生成，界面不依赖外链素材。",
+      "三种自然环境通过天气、地形轮廓和表面材质区分，保持道路与弯道边界可读。"
+    ],
+    "rules": [
+      {
+        "name": "The Signal Rule",
+        "body": "橙色只承载现在该做什么或这里发生了什么，不作为普通装饰底色。",
+        "section": "colors"
+      },
+      {
+        "name": "The Road First Rule",
+        "body": "驾驶场景中道路、弯道边界和下一检查点必须比说明文字更早被看见；信息只停留在边缘。",
+        "section": "layout"
+      }
+    ],
+    "dos": [
+      "Do use orange for an action or state with a real gameplay consequence.",
+      "Do keep measurement numbers large and use the condensed face for scan speed.",
+      "Do show wet-road highlights and headlight direction while preserving road readability.",
+      "Do distinguish forest, canyon, and alpine routes through their terrain, weather, and material palettes while retaining the established HUD and controls.",
+      "Do keep natural road shoulders continuous, firs varied and clustered, sandstone strata readable, and the frozen lake visibly covered with frost and fractures.",
+      "Do keep the selected track visible in scrolling navigation and pair it with matching route details.",
+      "Do write concrete recovery copy for reset, invalid saves, and interrupted races.",
+      "Do require handheld portrait views to rotate before driving and preserve the road-first landscape composition."
+    ],
+    "donts": [
+      "Don't use external images, CDN fonts, remote audio, or brand vehicles.",
+      "Don't put decorative neon grids, glowing outlines, or oversized score overlays across a turn.",
+      "Don't call a procedural stylized scene photorealistic.",
+      "Don't imply that surrounding mountain terrain creates elevation-based driving or that the ice lake is a drivable surface.",
+      "Don't turn drift points into ranking or allow a reset to advance a checkpoint.",
+      "Don't offer a dismiss button for the handheld portrait lock."
+    ]
+  }
+}
