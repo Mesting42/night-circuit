@@ -138,3 +138,14 @@ npm run build
 核心源码：`physics.js` 驾驶与碰撞，`tracks.js` 路线，`ai.js` 驾驶控制器，`race.js` 检查点和比赛，`adaptive.js` 日常实力评估与温和动态平衡，`render.js` 车辆与场景，`headlights.js` 近光灯配光与降水受光，`input.js` 键盘与多点触控，`audio.js` 合成声音，`save.js` 进度与经济，`ui.js` 与 `style.css` 界面。
 
 触屏操作区可在「设置 → 按钮透明度」调整 0%–80%，默认 0% 保留原有外观。数值越大，轮盘、左右按键和踏板的底色与边框越透明，文字与图标保持清晰；调整即时生效并自动保存。电脑端复位按钮位于左侧名次栏下方，手机和平板触控布局中位于转向轮盘上方并保留约 24px 间距，转向轮盘省略文字标题。`node scripts/browser-control-transparency.mjs` 验证布局、透明度范围、保存恢复及多点触控，也可传入生产站点 URL。
+
+<!-- pixel-pier-game-listing:start -->
+## Game listing / 游戏展示
+
+- **Game developer / 游戏开发者:** Mest ([@Mesting42](https://github.com/Mesting42))
+- **Pixel Pier listing / 游戏展示页面:** [Night Circuit](https://riverglint.link/games/night-circuit/)
+
+This game is listed on Pixel Pier with a play entry and game guide. This link identifies a game-development and listing relationship; it does not identify the developer as the website operator or operating entity.
+
+本游戏在 Pixel Pier 展示，并提供游玩入口与游戏指南。此链接仅表示游戏开发与展示关联，不代表开发者是该网站的运营者或运营主体。
+<!-- pixel-pier-game-listing:end -->
